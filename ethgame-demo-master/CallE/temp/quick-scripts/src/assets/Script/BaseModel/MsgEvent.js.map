@@ -1,0 +1,1 @@
+{"version":3,"sources":["assets\\Script\\BaseModel\\MsgEvent.ts"],"names":[],"mappings":";;;;;;;AAAA,IAAY,MAEX;AAFD,WAAY,MAAM;IACd,2DAAgB,CAAA;AACpB,CAAC,EAFW,MAAM,GAAN,cAAM,KAAN,cAAM,QAEjB","file":"","sourceRoot":"/","sourcesContent":["export enum LocMsg {\n    SHOW_ROBOT_INFOR\n}"]}

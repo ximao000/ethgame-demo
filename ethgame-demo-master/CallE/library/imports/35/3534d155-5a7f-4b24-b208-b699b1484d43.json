@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "robot-2",
+    "texture": "23178c13-1e96-4c66-aab2-2927baf71bc0",
+    "atlas": "",
+    "rect": [
+      8,
+      2,
+      181,
+      193
+    ],
+    "offset": [
+      -1.5,
+      1.5
+    ],
+    "originalSize": [
+      200,
+      200
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "ic_osiris",
+    "texture": "3597b4d6-0438-459d-9da4-e4ab4c68fd09",
+    "atlas": "",
+    "rect": [
+      31,
+      40,
+      92,
+      88
+    ],
+    "offset": [
+      2,
+      -9
+    ],
+    "originalSize": [
+      150,
+      150
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

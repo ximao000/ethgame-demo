@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "ic_thoth",
+    "texture": "24341044-bd39-417f-87ba-f04d29e8af2c",
+    "atlas": "",
+    "rect": [
+      12,
+      16,
+      112,
+      110
+    ],
+    "offset": [
+      -7,
+      4
+    ],
+    "originalSize": [
+      150,
+      150
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

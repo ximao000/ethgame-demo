@@ -1,0 +1,1 @@
+{"version":3,"sources":["assets\\Script\\Friend\\FriendProp.ts"],"names":[],"mappings":"","file":"","sourceRoot":"/","sourcesContent":["import { IRobot } from \"../Model/RobotProp\";\n\nexport interface IFriend {\n    id: number,\n    iconId: number,\n    name: string,\n    robot: IRobot,\n    getEnergy: boolean,\n\n}"]}
