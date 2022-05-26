@@ -50,7 +50,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var RobotProp_1 = require("../Model/RobotProp");
+var Global_1 = require("../App/Global");
+var MsgEvent_1 = require("../BaseModel/MsgEvent");
+var Types_1 = require("../BaseModel/Types");
+var DataManager_1 = require("../Manager/DataManager");
 var ShopItem_1 = require("./ShopItem");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var UI_ShopScrollView = /** @class */ (function (_super) {
@@ -83,25 +86,30 @@ var UI_ShopScrollView = /** @class */ (function (_super) {
             }
         };
         this.schedule(cb, 1 / cc.game.getFrameRate());
+        Global_1.default.Inst.On(MsgEvent_1.LocMsg.UPDATE_SHOP_DATA, this._FreashShopData, this);
+    };
+    UI_ShopScrollView.prototype._FreashShopData = function (gameTypeCreatDatas) {
+        this.SetData(gameTypeCreatDatas);
     };
     UI_ShopScrollView.prototype.onEnable = function () {
         _super.prototype.onEnable.call(this);
-        var testData = [];
-        for (var index = 0; index < 20; index++) {
-            var data = {
-                id: index,
-                robotImgId: index % RobotProp_1.RobotTypeCount,
-                mint: index,
-                sol: index,
-                level: index,
-                robotType: index % RobotProp_1.RobotTypeCount,
-                efficiency: Math.ceil(Math.random() * 10) / 10,
-                luck: Math.ceil(Math.random() * 10) / 10,
-                loss: Math.ceil(Math.random() * 10) / 10
-            };
-            testData.push(data);
-        }
-        this.SetData(testData);
+        // let testData: IRobot[] = [];
+        // for (let index = 0; index < 20; index++) {
+        //     let data: IRobot = {
+        //         id: index,
+        //         robotImgId: index % RobotTypeCount,
+        //         mint: index,
+        //         sol: index,
+        //         level: index,
+        //         robotType: index % RobotTypeCount,
+        //         efficiency: Math.ceil(Math.random() * 10) / 10,
+        //         luck: Math.ceil(Math.random() * 10) / 10,
+        //         loss: Math.ceil(Math.random() * 10) / 10
+        //     }
+        //     testData.push(data)
+        // }
+        var robotList = DataManager_1.default.Inst.GetData(Types_1.DataBaseKey.SHOP_DATA);
+        this.SetData(robotList);
     };
     UI_ShopScrollView.prototype.SetData = function (gameTypeCreatDatas) {
         this._cacheData = [];
@@ -158,7 +166,7 @@ var UI_ShopScrollView = /** @class */ (function (_super) {
         if (!data)
             return;
         var item = this._itemPools[data.poolIdx];
-        if (!item || (item && item.renderIdx == idx))
+        if (!item || (item && item.renderIdx == idx && item.robotId == data.roomTypeData.id))
             return;
         item.node.name = idx.toString();
         item.SetItem(idx, data.roomTypeData);

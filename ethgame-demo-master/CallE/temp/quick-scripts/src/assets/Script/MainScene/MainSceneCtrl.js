@@ -52,6 +52,8 @@ var Helloworld = /** @class */ (function (_super) {
         this.centerRoot.addChild(backpackCenter);
         var shopCenter = cc.instantiate(this.centerPref[3]);
         this.centerRoot.addChild(shopCenter);
+        var friendEnergyCenter = cc.instantiate(this.centerPref[4]);
+        this.centerRoot.addChild(friendEnergyCenter);
         this.centerGroups = this.centerRoot.children;
         this._InitListener();
     };
@@ -62,6 +64,7 @@ var Helloworld = /** @class */ (function (_super) {
         this._mapEventBind.forEach(function (value, event) {
             Global_1.default.Inst.On(event, value.bind(_this), _this);
         });
+        Global_1.default.Inst.On(MsgEvent_1.LocMsg.SHOW_FRIEND_Energy_INFOR, this.OnBtnClick, this);
     };
     Helloworld.prototype._ShowRobotDialog = function (data, state) {
         if (this.robotInforCtrl.node.active)

@@ -63,6 +63,7 @@ var Global_1 = require("../App/Global");
 var MsgEvent_1 = require("../BaseModel/MsgEvent");
 var RobotInforCtrl_1 = require("../MainScene/RobotInforCtrl");
 var RobotProp_1 = require("../Model/RobotProp");
+var LocalDataAPI_1 = require("../Utils/LocalDataAPI");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var ShopItem = /** @class */ (function (_super) {
     __extends(ShopItem, _super);
@@ -87,6 +88,13 @@ var ShopItem = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(ShopItem.prototype, "robotId", {
+        get: function () {
+            return this._robotData.id;
+        },
+        enumerable: false,
+        configurable: true
+    });
     ShopItem.prototype.SetItem = function (idx, data) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -95,7 +103,7 @@ var ShopItem = /** @class */ (function (_super) {
                 this._shopId = data.id;
                 this.lbMint.string = "Mint:" + data.mint;
                 this.lbID.string = "#" + data.id;
-                this.lbSol.string = data.sol + "SOL";
+                this.lbSol.string = data.maticCost + "SOL";
                 this.lbLv.string = "Lv " + data.level;
                 this.lbType.string = RobotProp_1.RobotTypeDesc[data.robotType];
                 this.icon.spriteFrame = this.iconSFs[data.robotImgId];
@@ -105,6 +113,9 @@ var ShopItem = /** @class */ (function (_super) {
     };
     ShopItem.prototype.OnClickSelf = function (event, customEventData) {
         Global_1.default.Inst.Emit(MsgEvent_1.LocMsg.SHOW_ROBOT_INFOR, this._robotData, RobotInforCtrl_1.INFOR_STATE.BUY);
+    };
+    ShopItem.prototype.OnClickBuy = function () {
+        LocalDataAPI_1.BuyRobot(this._robotData);
     };
     __decorate([
         property(cc.Sprite)

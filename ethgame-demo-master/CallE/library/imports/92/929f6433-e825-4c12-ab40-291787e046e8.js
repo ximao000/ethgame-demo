@@ -60,6 +60,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var RobotProp_1 = require("../Model/RobotProp");
+var Global_1 = require("../App/Global");
+var MsgEvent_1 = require("../BaseModel/MsgEvent");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var HotRoomItem = /** @class */ (function (_super) {
     __extends(HotRoomItem, _super);
@@ -87,8 +89,9 @@ var HotRoomItem = /** @class */ (function (_super) {
                 this._renderIdx = idx;
                 this._fridenId = data.id;
                 this.lbName.string = data.name;
-                this.lbRobot.string = RobotProp_1.RobotTypeDesc[data.robot.robotType];
-                this.ndEnergy.active = data.getEnergy;
+                this.lbRobot.string = RobotProp_1.RobotTypeDesc[data.curRobotUse.robotType];
+                // TODO 能量
+                // this.ndEnergy.active = data.getEnergy;
                 this.icon.spriteFrame = this.iconSFs[data.iconId];
                 return [2 /*return*/];
             });
@@ -96,6 +99,7 @@ var HotRoomItem = /** @class */ (function (_super) {
     };
     HotRoomItem.prototype.OnClickSelf = function (event, customEventData) {
         console.log(this._renderIdx);
+        Global_1.default.Inst.Emit(MsgEvent_1.LocMsg.SHOW_FRIEND_Energy_INFOR, null, 4);
     };
     __decorate([
         property(cc.Sprite)

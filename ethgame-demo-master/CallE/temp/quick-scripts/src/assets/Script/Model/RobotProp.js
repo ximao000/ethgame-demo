@@ -5,7 +5,7 @@ cc._RF.push(module, 'c991cE0JQFEwrswkY82Kriq', 'RobotProp');
 "use strict";
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RobotTypeDesc = exports.RobotType = exports.RobotTypeCount = void 0;
+exports.DefaultShopInfo = exports.RobotTypeDesc = exports.RobotType = exports.RobotTypeCount = void 0;
 // 4种类型
 exports.RobotTypeCount = 4;
 var RobotType;
@@ -23,5 +23,24 @@ exports.RobotTypeDesc = (_a = {},
     _a[RobotType.TYPE_3] = "高级机器人",
     _a[RobotType.TYPE_4] = "史诗机器人",
     _a);
+function DefaultShopInfo() {
+    var data = [];
+    for (var index = 0; index < 20; index++) {
+        var robot = {
+            id: Math.ceil(Math.random() * 1000000) + 5000000,
+            robotImgId: index % exports.RobotTypeCount,
+            mint: index,
+            maticCost: index,
+            level: index,
+            robotType: index % exports.RobotTypeCount,
+            efficiency: Math.ceil(Math.random() * 10) / 10,
+            luck: Math.ceil(Math.random() * 10) / 10,
+            loss: Math.ceil(Math.random() * 10) / 10
+        };
+        data.push(robot);
+    }
+    return data;
+}
+exports.DefaultShopInfo = DefaultShopInfo;
 
 cc._RF.pop();

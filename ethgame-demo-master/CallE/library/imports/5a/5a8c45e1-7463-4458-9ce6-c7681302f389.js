@@ -50,7 +50,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var RobotProp_1 = require("../Model/RobotProp");
+var Types_1 = require("../BaseModel/Types");
+var DataManager_1 = require("../Manager/DataManager");
 var FriendItem_1 = require("./FriendItem");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var UI_FriendScrollView = /** @class */ (function (_super) {
@@ -86,29 +87,30 @@ var UI_FriendScrollView = /** @class */ (function (_super) {
     };
     UI_FriendScrollView.prototype.onEnable = function () {
         _super.prototype.onEnable.call(this);
-        var testData = [];
-        var robot = {
-            id: 1,
-            robotImgId: 2,
-            robotType: RobotProp_1.RobotType.TYPE_1,
-            level: 3,
-            mint: 4,
-            sol: 5,
-            efficiency: 6,
-            luck: 7,
-            loss: 8
-        };
-        for (var index = 0; index < 20; index++) {
-            var data = {
-                id: index,
-                iconId: Math.floor(Math.random() * 6),
-                name: "玩家" + index,
-                robot: robot,
-                getEnergy: false
-            };
-            testData.push(data);
-        }
-        this.SetData(testData);
+        // let testData: IFriend[] = [];
+        // let robot: IRobot = {
+        //     id: 1,
+        //     robotImgId: 2,
+        //     robotType: RobotType.TYPE_1,
+        //     level: 3,
+        //     mint: 4,
+        //     sol: 5,
+        //     efficiency: 6,
+        //     luck: 7,
+        //     loss: 8
+        // };
+        // for (let index = 0; index < 20; index++) {
+        //     let data: IFriend = {
+        //         id: index,
+        //         iconId: Math.floor(Math.random() * 6),
+        //         name: "玩家" + index,
+        //         robot: robot,
+        //         getEnergy: false
+        //     }
+        //     testData.push(data)
+        // }
+        var friendList = DataManager_1.default.Inst.GetData(Types_1.DataBaseKey.PLAYER_DATA).friendList;
+        this.SetData(friendList);
     };
     UI_FriendScrollView.prototype.SetData = function (gameTypeCreatDatas) {
         this._cacheData = [];

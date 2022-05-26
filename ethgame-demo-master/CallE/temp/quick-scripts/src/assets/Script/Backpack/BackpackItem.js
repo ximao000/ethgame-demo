@@ -61,7 +61,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Global_1 = require("../App/Global");
 var MsgEvent_1 = require("../BaseModel/MsgEvent");
+var Types_1 = require("../BaseModel/Types");
 var RobotInforCtrl_1 = require("../MainScene/RobotInforCtrl");
+var DataManager_1 = require("../Manager/DataManager");
 var RobotProp_1 = require("../Model/RobotProp");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var BackpackItem = /** @class */ (function (_super) {
@@ -86,6 +88,13 @@ var BackpackItem = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(BackpackItem.prototype, "robotId", {
+        get: function () {
+            return this._robotData.id;
+        },
+        enumerable: false,
+        configurable: true
+    });
     BackpackItem.prototype.SetItem = function (idx, data) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -102,7 +111,9 @@ var BackpackItem = /** @class */ (function (_super) {
         });
     };
     BackpackItem.prototype.OnClickSelf = function (event, customEventData) {
-        Global_1.default.Inst.Emit(MsgEvent_1.LocMsg.SHOW_ROBOT_INFOR, this._robotData, RobotInforCtrl_1.INFOR_STATE.HAED);
+        var player = DataManager_1.default.Inst.GetData(Types_1.DataBaseKey.PLAYER_DATA);
+        var sate = player.curRobotUse && player.curRobotUse.id === this._robotData.id ? RobotInforCtrl_1.INFOR_STATE.ISUSEING : RobotInforCtrl_1.INFOR_STATE.HAED;
+        Global_1.default.Inst.Emit(MsgEvent_1.LocMsg.SHOW_ROBOT_INFOR, this._robotData, sate);
     };
     __decorate([
         property(cc.Sprite)

@@ -24,7 +24,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.INFOR_STATE = void 0;
+var Global_1 = require("../App/Global");
+var MsgEvent_1 = require("../BaseModel/MsgEvent");
 var RobotProp_1 = require("../Model/RobotProp");
+var LocalDataAPI_1 = require("../Utils/LocalDataAPI");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var INFOR_STATE;
 (function (INFOR_STATE) {
@@ -47,9 +50,13 @@ var RobotInforCtrl = /** @class */ (function (_super) {
         _this.lbSol = null;
         _this.iconSFs = [];
         _this.ndState = [];
+        _this.robot = null;
         return _this;
         // update (dt) {}
     }
+    RobotInforCtrl.prototype.onLoad = function () {
+        Global_1.default.Inst.On(MsgEvent_1.LocMsg.UPDATE_ROBOT_INFOR, this.setDataToUI, this);
+    };
     RobotInforCtrl.prototype.onEnable = function () {
         // // 测试；
         // let data: IRobot = {
@@ -66,6 +73,11 @@ var RobotInforCtrl = /** @class */ (function (_super) {
         // this.setDialog(data, INFOR_STATE.ISUSEING);
     };
     RobotInforCtrl.prototype.setDialog = function (data, state) {
+        this.setDataToUI(data, state);
+        this.node.active = true;
+    };
+    RobotInforCtrl.prototype.setDataToUI = function (data, state) {
+        this.robot = data;
         this.lbID.string = "#" + data.id;
         this.lbType.string = RobotProp_1.RobotTypeDesc[data.robotType];
         this.lbMint.string = "Mint:" + data.mint;
@@ -73,17 +85,22 @@ var RobotInforCtrl = /** @class */ (function (_super) {
         this.lbEfficiency.string = "" + data.efficiency;
         this.lbLuck.string = "" + data.luck;
         this.lbLoss.string = "" + data.loss;
-        this.lbSol.string = data.sol + " SOL";
+        this.lbSol.string = data.maticCost + " SOL";
         this.icon.spriteFrame = this.iconSFs[data.robotImgId];
         for (var _i = 0, _a = this.ndState; _i < _a.length; _i++) {
             var iterator = _a[_i];
             iterator.active = false;
         }
         this.ndState[state].active = true;
-        this.node.active = true;
     };
     RobotInforCtrl.prototype.OnBtnClose = function () {
         this.node.active = false;
+    };
+    RobotInforCtrl.prototype.OnClickBuy = function () {
+        LocalDataAPI_1.BuyRobot(this.robot);
+    };
+    RobotInforCtrl.prototype.OnClickUse = function () {
+        LocalDataAPI_1.UseRobot(this.robot);
     };
     __decorate([
         property(cc.Sprite)

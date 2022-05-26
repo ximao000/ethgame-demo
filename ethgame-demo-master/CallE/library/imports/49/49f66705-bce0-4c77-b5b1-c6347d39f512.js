@@ -23,6 +23,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Types_1 = require("../BaseModel/Types");
+var DataManager_1 = require("../Manager/DataManager");
+var PlayerProp_1 = require("../Model/PlayerProp");
+var RobotProp_1 = require("../Model/RobotProp");
+var Utils_1 = require("../Utils/Utils");
+var EnergyProp_1 = require("../Energy/EnergyProp");
+var LocalDataAPI_1 = require("../Utils/LocalDataAPI");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var Global = /** @class */ (function (_super) {
     __extends(Global, _super);
@@ -39,6 +46,7 @@ var Global = /** @class */ (function (_super) {
     });
     Global.prototype.onLoad = function () {
         Global_1._inst = this;
+        this._InitLocalData();
     };
     Global.prototype.Emit = function (event, arg1, arg2, arg3, arg4, arg5) {
         this.node.emit(event.toString(), arg1, arg2, arg3, arg4, arg5);
@@ -51,6 +59,44 @@ var Global = /** @class */ (function (_super) {
     };
     Global.prototype.Off = function (event, callback, target, useCapture) {
         this.node.off(event.toString(), callback, target, useCapture);
+    };
+    // update (dt) {}
+    Global.prototype._InitLocalData = function () {
+        // 个人数据
+        var playerLoadData = Utils_1.default.LoadData(Types_1.SaveDataKey.PLAYER_DATA);
+        if (!playerLoadData) {
+            var player = PlayerProp_1.DefaultPlayerInfo();
+            DataManager_1.default.Inst.SetData(Types_1.DataBaseKey.PLAYER_DATA, player);
+            Utils_1.default.SaveData(Types_1.SaveDataKey.PLAYER_DATA, JSON.stringify(player));
+        }
+        else {
+            var player = JSON.parse(playerLoadData);
+            DataManager_1.default.Inst.SetData(Types_1.DataBaseKey.PLAYER_DATA, player);
+        }
+        // 商城数据
+        var shopLoadData = Utils_1.default.LoadData(Types_1.SaveDataKey.SHOP_DATA);
+        if (!shopLoadData) {
+            var shops = RobotProp_1.DefaultShopInfo();
+            DataManager_1.default.Inst.SetData(Types_1.DataBaseKey.SHOP_DATA, shops);
+            Utils_1.default.SaveData(Types_1.SaveDataKey.SHOP_DATA, JSON.stringify(shops));
+        }
+        else {
+            var shop = JSON.parse(shopLoadData);
+            DataManager_1.default.Inst.SetData(Types_1.DataBaseKey.SHOP_DATA, shop);
+        }
+        // energy data
+        Utils_1.default.RemoveSaveData(Types_1.SaveDataKey.ENERGY_DATA);
+        var energyLoadData = Utils_1.default.LoadData(Types_1.SaveDataKey.ENERGY_DATA);
+        if (!energyLoadData) {
+            var energy = EnergyProp_1.DefaultEnergyInfo();
+            DataManager_1.default.Inst.SetData(Types_1.DataBaseKey.ENERGY_DATA, energy);
+            Utils_1.default.SaveData(Types_1.SaveDataKey.ENERGY_DATA, JSON.stringify(energy));
+        }
+        else {
+            var energy = JSON.parse(energyLoadData);
+            DataManager_1.default.Inst.SetData(Types_1.DataBaseKey.ENERGY_DATA, energy);
+        }
+        LocalDataAPI_1.UpdateEnergy();
     };
     var Global_1;
     Global._inst = null;
