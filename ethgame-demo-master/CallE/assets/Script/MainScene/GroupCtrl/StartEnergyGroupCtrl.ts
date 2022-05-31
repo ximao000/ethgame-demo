@@ -62,7 +62,7 @@ export default class StartEnergyGroupCtrl extends cc.Component {
     }
 
     OnClickSelf(event, customEventData) {
-        this.node.runAction(cc.moveTo(0.3, cc.v2(0, -1334)));
+        this.node.runAction(cc.moveTo(0.3, cc.v2(375, -1334)));
     }
 
     OnClickStart(event, customEventData) {

@@ -65,6 +65,7 @@ var Types_1 = require("../BaseModel/Types");
 var RobotInforCtrl_1 = require("../MainScene/RobotInforCtrl");
 var DataManager_1 = require("../Manager/DataManager");
 var RobotProp_1 = require("../Model/RobotProp");
+var LocalDataAPI_1 = require("../Utils/LocalDataAPI");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var BackpackItem = /** @class */ (function (_super) {
     __extends(BackpackItem, _super);
@@ -75,6 +76,7 @@ var BackpackItem = /** @class */ (function (_super) {
         _this.lbID = null;
         _this.lbMint = null;
         _this.lbLv = null;
+        _this.lbs = [];
         _this.iconSFs = [];
         _this.btnUse = null;
         _this._renderIdx = -1;
@@ -97,15 +99,24 @@ var BackpackItem = /** @class */ (function (_super) {
     });
     BackpackItem.prototype.SetItem = function (idx, data) {
         return __awaiter(this, void 0, void 0, function () {
+            var player;
             return __generator(this, function (_a) {
                 this._renderIdx = idx;
                 this._robotData = data;
                 this.lbMint.string = "Mint:" + data.mint;
-                this.lbID.string = "#" + data.id;
-                this.lbLv.string = "Lv " + data.level;
+                this.lbID.string = "" + data.id;
+                this.lbLv.string = "Lv." + data.level;
                 this.lbType.string = RobotProp_1.RobotTypeDesc[data.robotType];
                 this.icon.spriteFrame = this.iconSFs[data.robotImgId];
-                this.btnUse.active = false;
+                //属性
+                this.lbs[0].string = "" + data.efficiency;
+                this.lbs[1].string = "" + data.luck;
+                this.lbs[2].string = "" + data.pow;
+                this.lbs[3].string = data.intMin + "~" + data.intMax;
+                player = DataManager_1.default.Inst.GetData(Types_1.DataBaseKey.PLAYER_DATA);
+                this.btnUse.active = true;
+                this.btnUse.children[0].active = player.curRobotUse && player.curRobotUse.id === this._robotData.id ? true : false;
+                this.btnUse.children[1].active = !this.btnUse.children[0].active;
                 return [2 /*return*/];
             });
         });
@@ -114,6 +125,9 @@ var BackpackItem = /** @class */ (function (_super) {
         var player = DataManager_1.default.Inst.GetData(Types_1.DataBaseKey.PLAYER_DATA);
         var sate = player.curRobotUse && player.curRobotUse.id === this._robotData.id ? RobotInforCtrl_1.INFOR_STATE.ISUSEING : RobotInforCtrl_1.INFOR_STATE.HAED;
         Global_1.default.Inst.Emit(MsgEvent_1.LocMsg.SHOW_ROBOT_INFOR, this._robotData, sate);
+    };
+    BackpackItem.prototype.OnClickUse = function (event, customEventData) {
+        LocalDataAPI_1.API_UseRobot(this._robotData);
     };
     __decorate([
         property(cc.Sprite)
@@ -130,6 +144,9 @@ var BackpackItem = /** @class */ (function (_super) {
     __decorate([
         property(cc.Label)
     ], BackpackItem.prototype, "lbLv", void 0);
+    __decorate([
+        property([cc.Label])
+    ], BackpackItem.prototype, "lbs", void 0);
     __decorate([
         property([cc.SpriteFrame])
     ], BackpackItem.prototype, "iconSFs", void 0);

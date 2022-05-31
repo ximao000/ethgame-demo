@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "eabf918d-f572-4ac7-9bce-d1ebed041e1b",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1176,
+  "height": 1398,
+  "platformSettings": {},
+  "subMetas": {
+    "成语游戏_机器人主页3": {
+      "ver": "1.0.4",
+      "uuid": "c034a9e3-5c81-4a57-b9d1-12d8ad23f824",
+      "rawTextureUuid": "eabf918d-f572-4ac7-9bce-d1ebed041e1b",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 1176,
+      "height": 1398,
+      "rawWidth": 1176,
+      "rawHeight": 1398,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

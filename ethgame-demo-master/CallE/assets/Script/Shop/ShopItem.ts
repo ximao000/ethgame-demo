@@ -2,7 +2,7 @@ import Global from "../App/Global";
 import { LocMsg } from "../BaseModel/MsgEvent";
 import { INFOR_STATE } from "../MainScene/RobotInforCtrl";
 import { IRobot, RobotTypeDesc } from "../Model/RobotProp";
-import { BuyRobot } from "../Utils/LocalDataAPI";
+import { API_BuyRobot } from "../Utils/LocalDataAPI";
 
 
 const { ccclass, property } = cc._decorator;
@@ -48,10 +48,10 @@ export default class ShopItem extends cc.Component {
         this._renderIdx = idx;
         this._robotData = data;
         this._shopId = data.id;
-        this.lbMint.string = "Mint:" + data.mint;
+        this.lbMint.string = data.mint + "/7";
         this.lbID.string = "#" + data.id
-        this.lbSol.string = data.maticCost + "SOL";
-        this.lbLv.string = "Lv " + data.level;
+        this.lbSol.string = data.maticCost + "";
+        this.lbLv.string = "Lv." + data.level;
         this.lbType.string = RobotTypeDesc[data.robotType];
         this.icon.spriteFrame = this.iconSFs[data.robotImgId]
     }
@@ -61,7 +61,7 @@ export default class ShopItem extends cc.Component {
     }
 
     OnClickBuy() {
-        BuyRobot(this._robotData);
+        API_BuyRobot(this._robotData);
     }
 
 }

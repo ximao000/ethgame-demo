@@ -1,7 +1,6 @@
-import { IFriend } from "../Model/FriendProp";
-import { RobotTypeDesc } from "../Model/RobotProp";
 import Global from "../App/Global";
-import {LocMsg} from "../BaseModel/MsgEvent";
+import { LocMsg } from "../BaseModel/MsgEvent";
+import { IFriend } from "../Model/FriendProp";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,7 +34,7 @@ export default class HotRoomItem extends cc.Component {
         this._renderIdx = idx;
         this._fridenId = data.id;
         this.lbName.string = data.name;
-        this.lbRobot.string = RobotTypeDesc[data.curRobotUse.robotType];
+        this.lbRobot.string = data.totalCreatEnergy + "kg";
         // TODO 能量
         // this.ndEnergy.active = data.getEnergy;
         this.icon.spriteFrame = this.iconSFs[data.iconId]

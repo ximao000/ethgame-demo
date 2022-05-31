@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "9038951c-c4bc-497f-a37f-6443b53ad9f7",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 1031,
+  "height": 1334,
+  "platformSettings": {},
+  "subMetas": {
+    "游戏切图_机器人掠夺1": {
+      "ver": "1.0.4",
+      "uuid": "3375b40a-cd28-48db-a38c-805025c48952",
+      "rawTextureUuid": "9038951c-c4bc-497f-a37f-6443b53ad9f7",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 1031,
+      "height": 1334,
+      "rawWidth": 1031,
+      "rawHeight": 1334,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

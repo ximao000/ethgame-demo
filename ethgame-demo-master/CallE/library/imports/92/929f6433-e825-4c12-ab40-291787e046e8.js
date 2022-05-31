@@ -59,7 +59,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var RobotProp_1 = require("../Model/RobotProp");
 var Global_1 = require("../App/Global");
 var MsgEvent_1 = require("../BaseModel/MsgEvent");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
@@ -89,7 +88,7 @@ var HotRoomItem = /** @class */ (function (_super) {
                 this._renderIdx = idx;
                 this._fridenId = data.id;
                 this.lbName.string = data.name;
-                this.lbRobot.string = RobotProp_1.RobotTypeDesc[data.curRobotUse.robotType];
+                this.lbRobot.string = data.totalCreatEnergy + "kg";
                 // TODO 能量
                 // this.ndEnergy.active = data.getEnergy;
                 this.icon.spriteFrame = this.iconSFs[data.iconId];

@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "b252ba7d-3c77-42a4-9fa0-06eee419983e",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 750,
+  "height": 1334,
+  "platformSettings": {},
+  "subMetas": {
+    "机器人背包4": {
+      "ver": "1.0.4",
+      "uuid": "3a907c47-0622-4cf6-90b3-3fd8ae1c6a4b",
+      "rawTextureUuid": "b252ba7d-3c77-42a4-9fa0-06eee419983e",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 750,
+      "height": 1334,
+      "rawWidth": 750,
+      "rawHeight": 1334,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

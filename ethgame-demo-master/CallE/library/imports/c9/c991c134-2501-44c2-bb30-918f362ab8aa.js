@@ -18,24 +18,27 @@ var RobotType;
 ;
 // 
 exports.RobotTypeDesc = (_a = {},
-    _a[RobotType.TYPE_1] = "初级机器人",
-    _a[RobotType.TYPE_2] = "中级机器人",
-    _a[RobotType.TYPE_3] = "高级机器人",
-    _a[RobotType.TYPE_4] = "史诗机器人",
+    _a[RobotType.TYPE_1] = "A-ROBOT",
+    _a[RobotType.TYPE_2] = "B-ROBOT",
+    _a[RobotType.TYPE_3] = "C-ROBOT",
+    _a[RobotType.TYPE_4] = "D-ROBOT",
     _a);
 function DefaultShopInfo() {
     var data = [];
     for (var index = 0; index < 20; index++) {
+        var robotType = index % exports.RobotTypeCount;
         var robot = {
             id: Math.ceil(Math.random() * 1000000) + 5000000,
             robotImgId: index % exports.RobotTypeCount,
-            mint: index,
+            mint: Math.ceil(Math.random() * 7),
             maticCost: index,
             level: index,
-            robotType: index % exports.RobotTypeCount,
-            efficiency: Math.ceil(Math.random() * 10) / 10,
-            luck: Math.ceil(Math.random() * 10) / 10,
-            loss: Math.ceil(Math.random() * 10) / 10
+            robotType: robotType,
+            efficiency: Math.ceil(Math.random() * 10),
+            luck: Math.ceil(Math.random() * 10),
+            pow: Math.ceil(Math.random() * 10),
+            intMin: [1, 3, 5, 7][robotType],
+            intMax: [3, 5, 7, 10][robotType],
         };
         data.push(robot);
     }

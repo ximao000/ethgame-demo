@@ -1,3 +1,5 @@
+import Global from "../App/Global";
+import { LocMsg } from "../BaseModel/MsgEvent";
 import { DataBaseKey } from "../BaseModel/Types";
 import DataManager from "../Manager/DataManager";
 import { IPlayerInfo } from "../Model/PlayerProp";
@@ -41,6 +43,8 @@ export default class UI_BackPackScrollView extends cc.ScrollView {
             }
         };
         this.schedule(cb, 1 / cc.game.getFrameRate());
+
+        Global.Inst.On(LocMsg.UPDATE_BACK_PACK_DATA, this._FreashData, this);
     }
 
     protected onEnable(): void {
@@ -64,6 +68,9 @@ export default class UI_BackPackScrollView extends cc.ScrollView {
 
         let robotList = DataManager.Inst.GetData<IPlayerInfo>(DataBaseKey.PLAYER_DATA).robotList;
         this.SetData(robotList);
+    }
+    private _FreashData(gameTypeCreatDatas: IRobot[]) {
+        this.SetData(gameTypeCreatDatas)
     }
 
     SetData(gameTypeCreatDatas: IRobot[]) {
@@ -129,7 +136,8 @@ export default class UI_BackPackScrollView extends cc.ScrollView {
         let data = this._cacheData[idx];
         if (!data) return;
         let item = this._itemPools[data.poolIdx];
-        if (!item || (item && item.renderIdx == idx && item.robotId == data.roomTypeData.id)) return;
+        // if (!item || (item && item.renderIdx == idx && item.robotId == data.roomTypeData.id)) return;
+        if (!item) return;
         item.node.name = idx.toString();
         item.SetItem(idx, data.roomTypeData);
         item.node.active = true;

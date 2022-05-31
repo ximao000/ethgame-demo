@@ -19,7 +19,7 @@ export interface IPlayerInfo {
     // 已经用掉的转换数
     hadChangeEnergyNum: number,
     // 总共可以转化数
-    canChangeEnergyNumMax: number,
+    canChangeEnergyNumTotal: number,
 
 
     // 好友
@@ -28,6 +28,8 @@ export interface IPlayerInfo {
 
 
     //TODO？？？？？能量
+
+    timeReseat: number;
 }
 
 export function DefaultPlayerInfo(): IPlayerInfo {
@@ -41,27 +43,33 @@ export function DefaultPlayerInfo(): IPlayerInfo {
         aceCount: 20,
         collectEnergyCount: 5,
         hadChangeEnergyNum: 0,
-        canChangeEnergyNumMax: 0,
-        friendList: []
+        canChangeEnergyNumTotal: 0,
+        friendList: [],
+        timeReseat: 0
     }
 
     for (let index = 0; index < 20; index++) {
+        let robotType = index % RobotTypeCount;
         let friend: IFriend = {
             id: index,
-            iconId: Math.floor(Math.random() * 6),
-            name: "名字" + index,
+            iconId: Math.floor(Math.random() * 4),
+            name: "A-CallE-" + index,
             curRobotUse: {
-                id: Math.ceil(Math.random() * 1000000) + 1000000,
+                id: Math.ceil(Math.random() * 1000000) + 5000000,
                 robotImgId: index % RobotTypeCount,
                 mint: index,
+                maticCost: index,
                 level: index,
-                robotType: index % RobotTypeCount,
-                efficiency: Math.ceil(Math.random() * 100) / 100,
-                luck: Math.ceil(Math.random() * 100) / 100,
-                loss: Math.ceil(Math.random() * 100) / 100,
-                maticCost: 0
+                robotType: robotType,
+                efficiency: Math.ceil(Math.random() * 10),
+                luck: Math.ceil(Math.random() * 10),
+                pow: Math.ceil(Math.random() * 10),
+                intMin: [1, 3, 5, 7][robotType],
+                intMax: [3, 5, 7, 10][robotType],
             }
             // TODO 能量
+            ,
+            totalCreatEnergy: Math.floor(Math.random() * 1000) / 10
         }
         data.friendList.push(friend);
 

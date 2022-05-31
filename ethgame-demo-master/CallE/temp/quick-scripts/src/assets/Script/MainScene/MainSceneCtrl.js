@@ -25,6 +25,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var Global_1 = require("../App/Global");
 var MsgEvent_1 = require("../BaseModel/MsgEvent");
+var Types_1 = require("../BaseModel/Types");
+var DataManager_1 = require("../Manager/DataManager");
 var RobotInforCtrl_1 = require("./RobotInforCtrl");
 var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
 var Helloworld = /** @class */ (function (_super) {
@@ -35,12 +37,24 @@ var Helloworld = /** @class */ (function (_super) {
         _this.centerRoot = null;
         _this.centerPref = [];
         _this.robotInforCtrl = null;
+        _this.lbHal = null;
+        _this.lbAce = null;
+        _this.lbCollectEnergy = null;
+        _this.ndTop = null;
+        _this.toggleContainer = null;
         _this.curCenterGroupIndex = 0;
         _this.centerGroupIsMoving = false;
         _this.centerGroups = [];
         _this._mapEventBind = null;
         return _this;
     }
+    Object.defineProperty(Helloworld.prototype, "player", {
+        get: function () {
+            return DataManager_1.default.Inst.GetData(Types_1.DataBaseKey.PLAYER_DATA);
+        },
+        enumerable: false,
+        configurable: true
+    });
     Helloworld.prototype.onLoad = function () {
         // this.menuAnim.play('menu_reset');
         var homeCenter = cc.instantiate(this.centerPref[0]);
@@ -55,21 +69,35 @@ var Helloworld = /** @class */ (function (_super) {
         var friendEnergyCenter = cc.instantiate(this.centerPref[4]);
         this.centerRoot.addChild(friendEnergyCenter);
         this.centerGroups = this.centerRoot.children;
+        this._UpdateTopUI();
         this._InitListener();
     };
     Helloworld.prototype._InitListener = function () {
         var _this = this;
         this._mapEventBind = new Map();
+        this._mapEventBind.set(MsgEvent_1.LocMsg.UPDATE_COLLECT_ENERGY.toString(), this._UpdateTopUI);
+        this._mapEventBind.set(MsgEvent_1.LocMsg.UPDATE_HAL_COUNT.toString(), this._UpdateTopUI);
         this._mapEventBind.set(MsgEvent_1.LocMsg.SHOW_ROBOT_INFOR.toString(), this._ShowRobotDialog);
+        this._mapEventBind.set(MsgEvent_1.LocMsg.SHOW_ROBOT_INFOR.toString(), this._ShowRobotDialog);
+        this._mapEventBind.set(MsgEvent_1.LocMsg.CHANGE_GROUP_BY_INDEX.toString(), this._ShowShopGroup);
         this._mapEventBind.forEach(function (value, event) {
             Global_1.default.Inst.On(event, value.bind(_this), _this);
         });
         Global_1.default.Inst.On(MsgEvent_1.LocMsg.SHOW_FRIEND_Energy_INFOR, this.OnBtnClick, this);
     };
+    Helloworld.prototype._UpdateTopUI = function () {
+        this.lbHal.string = this.player.halCount + "";
+        this.lbAce.string = this.player.aceCount + "";
+        this.lbCollectEnergy.string = this.player.collectEnergyCount + "";
+    };
     Helloworld.prototype._ShowRobotDialog = function (data, state) {
         if (this.robotInforCtrl.node.active)
             return;
         this.robotInforCtrl.setDialog(data, state);
+    };
+    Helloworld.prototype._ShowShopGroup = function (index) {
+        this.toggleContainer.toggleItems[index].check();
+        this.OnBtnClick(null, index > 2 ? index - 1 : index);
     };
     Helloworld.prototype.start = function () {
     };
@@ -78,16 +106,17 @@ var Helloworld = /** @class */ (function (_super) {
         var lastCenterGroupIndex = parseInt(customEventData);
         if (this.curCenterGroupIndex === lastCenterGroupIndex || this.centerGroupIsMoving)
             return;
+        this.ndTop.active = lastCenterGroupIndex !== 1;
         //左滑动；
         this.centerGroupIsMoving = true;
         var lastCenterPosX = this.curCenterGroupIndex < lastCenterGroupIndex ? this.node.width : -this.node.width;
         var moveTime = 0.1;
         var oldIndex = this.curCenterGroupIndex;
-        this.centerGroups[lastCenterGroupIndex].active = true;
+        // this.centerGroups[lastCenterGroupIndex].active = true;
         this.centerGroups[lastCenterGroupIndex].x = lastCenterPosX;
         this.centerGroups[this.curCenterGroupIndex].runAction(cc.sequence(cc.moveTo(moveTime, cc.v2(-lastCenterPosX, 0)), cc.callFunc(function () {
             _this.centerGroupIsMoving = false;
-            _this.centerGroups[oldIndex].active = false;
+            // this.centerGroups[oldIndex].active = false;
         })));
         this.centerGroups[lastCenterGroupIndex].runAction(cc.sequence(cc.moveTo(moveTime, cc.v2(0, 0)), cc.callFunc(function () {
         })));
@@ -105,6 +134,21 @@ var Helloworld = /** @class */ (function (_super) {
     __decorate([
         property(RobotInforCtrl_1.default)
     ], Helloworld.prototype, "robotInforCtrl", void 0);
+    __decorate([
+        property(cc.Label)
+    ], Helloworld.prototype, "lbHal", void 0);
+    __decorate([
+        property(cc.Label)
+    ], Helloworld.prototype, "lbAce", void 0);
+    __decorate([
+        property(cc.Label)
+    ], Helloworld.prototype, "lbCollectEnergy", void 0);
+    __decorate([
+        property(cc.Node)
+    ], Helloworld.prototype, "ndTop", void 0);
+    __decorate([
+        property(cc.ToggleContainer)
+    ], Helloworld.prototype, "toggleContainer", void 0);
     Helloworld = __decorate([
         ccclass
     ], Helloworld);

@@ -50,6 +50,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var Global_1 = require("../App/Global");
+var MsgEvent_1 = require("../BaseModel/MsgEvent");
 var Types_1 = require("../BaseModel/Types");
 var DataManager_1 = require("../Manager/DataManager");
 var BackpackItem_1 = require("./BackpackItem");
@@ -84,6 +86,7 @@ var UI_BackPackScrollView = /** @class */ (function (_super) {
             }
         };
         this.schedule(cb, 1 / cc.game.getFrameRate());
+        Global_1.default.Inst.On(MsgEvent_1.LocMsg.UPDATE_BACK_PACK_DATA, this._FreashData, this);
     };
     UI_BackPackScrollView.prototype.onEnable = function () {
         _super.prototype.onEnable.call(this);
@@ -104,6 +107,9 @@ var UI_BackPackScrollView = /** @class */ (function (_super) {
         // }
         var robotList = DataManager_1.default.Inst.GetData(Types_1.DataBaseKey.PLAYER_DATA).robotList;
         this.SetData(robotList);
+    };
+    UI_BackPackScrollView.prototype._FreashData = function (gameTypeCreatDatas) {
+        this.SetData(gameTypeCreatDatas);
     };
     UI_BackPackScrollView.prototype.SetData = function (gameTypeCreatDatas) {
         this._cacheData = [];
@@ -160,7 +166,8 @@ var UI_BackPackScrollView = /** @class */ (function (_super) {
         if (!data)
             return;
         var item = this._itemPools[data.poolIdx];
-        if (!item || (item && item.renderIdx == idx && item.robotId == data.roomTypeData.id))
+        // if (!item || (item && item.renderIdx == idx && item.robotId == data.roomTypeData.id)) return;
+        if (!item)
             return;
         item.node.name = idx.toString();
         item.SetItem(idx, data.roomTypeData);

@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "f9b6bdeb-5c0f-439f-b8bc-2c280ad5c725",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 750,
+  "height": 1334,
+  "platformSettings": {},
+  "subMetas": {
+    "机器人商城1": {
+      "ver": "1.0.4",
+      "uuid": "9f584e5b-0d46-45f8-a9c5-ab3bc6d22830",
+      "rawTextureUuid": "f9b6bdeb-5c0f-439f-b8bc-2c280ad5c725",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 750,
+      "height": 1334,
+      "rawWidth": 750,
+      "rawHeight": 1334,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

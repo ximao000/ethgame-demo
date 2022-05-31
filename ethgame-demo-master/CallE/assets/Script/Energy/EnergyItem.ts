@@ -1,22 +1,24 @@
-import {CollectionTime, IEnergy, MaturationTime} from "./EnergyProp";
+import { DataBaseKey } from "../BaseModel/Types";
 import DataManager from "../Manager/DataManager";
-import {IPlayerInfo} from "../Model/PlayerProp";
-import {DataBaseKey} from "../BaseModel/Types";
-import {INFOR_STATE} from "../MainScene/RobotInforCtrl";
-import Global from "../App/Global";
-import {LocMsg} from "../BaseModel/MsgEvent";
-import {DeleteEnergy, UpdateEnergy} from "../Utils/LocalDataAPI";
+import { API_CollectEnergy, DeleteEnergy, UpdateEnergy } from "../Utils/LocalDataAPI";
+import { CollectionTime, IEnergy, MaturationTime } from "./EnergyProp";
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class EnergyItem extends cc.Component {
+
+    @property(cc.Node)
+    actionBg: cc.Node = null;
 
     @property(cc.Sprite)
     icon: cc.Sprite = null;
 
     @property(cc.Sprite)
     mask: cc.Sprite = null;
+
+    @property(cc.Node)
+    timeBg: cc.Node = null;
 
     @property(cc.Label)
     time: cc.Label = null;
@@ -27,33 +29,36 @@ export default class EnergyItem extends cc.Component {
     @property([cc.SpriteFrame])
     iconSFs: cc.SpriteFrame[] = [];
 
+    @property([cc.Color])
+    colors: cc.Color[] = [];
+
     private _energyData: IEnergy = null;
     private _nowTime: number = 0;
     private _deltaTime: number = 0;
-    private _positions: cc.Vec2[] = [cc.v2(57, -15), cc.v2(291, -103), cc.v2(-8, -97), cc.v2(278, -2), cc.v2(163, -19)];
+    private _positions: cc.Vec2[] = [cc.v2(-153, 65), cc.v2(170, 47), cc.v2(-272, -30), cc.v2(250, -114), cc.v2(0, 16)];
     private _start: boolean = false;
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
         this.node.scale = 0;
     }
 
-    start () {
+    start() {
         this.node.runAction(cc.sequence(cc.scaleTo(0.3, 1), cc.callFunc(() => {
         })));
     }
 
-    update (dt) {
-        if (this._start){
+    update(dt) {
+        if (this._start) {
             this._deltaTime += dt;
-            if (this._deltaTime >= 1){
+            if (this._deltaTime >= 1) {
                 this._UpdateItem();
             }
         }
     }
 
-    get energyData(){
+    get energyData() {
         return this._energyData;
     }
 
@@ -62,73 +67,84 @@ export default class EnergyItem extends cc.Component {
         this._nowTime = nowDate.getTime();
         this._energyData = data;
         this.node.setPosition(this._positions[data.idx]);
-        // console.log("SetItem: " + this.node.position);
+        // console.log("SetItem: " + this._energyData.idx);
 
         this._InitItem();
     }
 
-    private _UpdateItem(){
-        if (this._energyData.isGrow){
-            if (this._deltaTime > 1){
+    private _UpdateItem() {
+        if (this._energyData.isGrow) {
+            if (this._deltaTime > 1) {
                 this._deltaTime -= 1;
-                this._energyData.energyCount = Math.round((this._energyData.energyCount*10 + 1))/10;
-                this.count.string = this._energyData.energyCount.toString();
+                this._energyData.energyCount = Math.round((this._energyData.energyCount * 10 + 1)) / 10;
+                this.count.string = this._energyData.energyCount.toString() + "g";
                 // need change data
-                if (this._energyData.energyCount%10 == 9){
-                    console.log("save data");
+                if (this._energyData.energyCount % 10 == 9) {
+                    // console.log("save data");
                     UpdateEnergy(this._energyData);
                 }
             }
         } else {
-            if (this._deltaTime > 1){
+            if (this._deltaTime > 1) {
                 this._deltaTime -= 1;
                 this._nowTime = new Date().getTime();
-                if (this._nowTime - this._energyData.energyTime > MaturationTime + CollectionTime){
+                if (this._nowTime - this._energyData.energyTime > MaturationTime + CollectionTime) {
                     // time out
                     this.node.getComponent(cc.Button).interactable = false;
                     this.node.runAction(cc.sequence(cc.scaleTo(0.3, 0), cc.callFunc(() => {
                         this.node.removeFromParent();
                         DeleteEnergy(this._energyData);
                     })));
-                } else if (this._nowTime - this._energyData.energyTime > MaturationTime){
-                    this.mask.node.active = false;
-                    this.time.node.active = false;
+                } else if (this._nowTime - this._energyData.energyTime > MaturationTime) {
+                    this.timeBg.active = false;
                     this.node.getComponent(cc.Button).interactable = true;
                 } else {
-                    this.mask.node.active = true;
-                    this.time.node.active = true;
-                    let timeShow = Math.floor((MaturationTime - (this._nowTime - this._energyData.energyTime))*0.001);
-                    this.time.string = Math.floor(timeShow/3600) + ":" + Math.floor(timeShow%3600/60) + ":" + timeShow%3600%60;
+                    this.timeBg.active = true;
+                    let timeShow = Math.floor((MaturationTime - (this._nowTime - this._energyData.energyTime)) * 0.001);
+                    let h = Math.floor(timeShow / 3600);
+                    let m = Math.floor(timeShow % 3600 / 60);
+                    let s = timeShow % 3600 % 60;
+                    this.time.string = (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
                 }
             }
         }
-        if (!this._energyData.isGrow){
+        if (!this._energyData.isGrow) {
             let data = DataManager.Inst.GetData<IEnergy[]>(DataBaseKey.ENERGY_DATA);
-            if (data.indexOf(this._energyData) == -1){
+            if (data.indexOf(this._energyData) == -1) {
                 this.node.removeFromParent();
             }
         }
     }
 
-    private _InitItem(){
-        if (this._energyData.isGrow){
-            this.icon.spriteFrame = this.iconSFs[this._energyData.energyType + 4];
-            this.mask.node.active = false;
-            this.time.node.active = false;
-            this.count.string = this._energyData.energyCount.toString();
+    private _InitItem() {
+        // console.log("_InitItem: " + this._energyData.isGrow);
+        if (this._energyData.isGrow) {
+            this.icon.spriteFrame = this.iconSFs[this._energyData.energyType];
+            this.mask.spriteFrame = this.iconSFs[this._energyData.energyType + 4];
+            this.actionBg.active = true;
+            this.actionBg.runAction(cc.repeatForever(cc.rotateBy(1, 180)));
+            this.mask.node.active = true;
+            this.timeBg.active = false;
+            this.count.node.color = this.colors[this._energyData.energyType];
+            this.count.string = this._energyData.energyCount.toString() + "g";
             this.node.getComponent(cc.Button).interactable = false;
         } else {
+            this.actionBg.stopAllActions();
+            this.actionBg.active = false;
+            this.mask.node.active = false;
             this.icon.spriteFrame = this.iconSFs[this._energyData.energyType];
-            this.count.string = this._energyData.energyCount.toString();
-            if (this._nowTime - this._energyData.energyTime > MaturationTime){
-                this.mask.node.active = false;
-                this.time.node.active = false;
+            this.count.node.color = this.colors[this._energyData.energyType];
+            this.count.string = this._energyData.energyCount.toString() + "g";
+            if (this._nowTime - this._energyData.energyTime > MaturationTime) {
+                this.timeBg.active = false;
                 this.node.getComponent(cc.Button).interactable = true;
             } else {
-                this.mask.node.active = true;
-                this.time.node.active = true;
-                let timeShow = Math.floor((MaturationTime - (this._nowTime - this._energyData.energyTime))*0.001);
-                this.time.string = Math.floor(timeShow/3600) + ":" + Math.floor(timeShow%3600/60) + ":" + timeShow%3600%60;
+                this.timeBg.active = true;
+                let timeShow = Math.floor((MaturationTime - (this._nowTime - this._energyData.energyTime)) * 0.001);
+                let h = Math.floor(timeShow / 3600);
+                let m = Math.floor(timeShow % 3600 / 60);
+                let s = timeShow % 3600 % 60;
+                this.time.string = (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
                 this.node.getComponent(cc.Button).interactable = false;
             }
         }
@@ -136,9 +152,12 @@ export default class EnergyItem extends cc.Component {
     }
 
     OnClick(event, customEventData) {
+        // 增加能量
+        API_CollectEnergy(this._energyData.energyCount);
+
         // collect energy
         this.node.getComponent(cc.Button).interactable = false;
-        this.node.runAction(cc.sequence(cc.spawn(cc.moveTo(0.35, cc.v2(235, 194)), cc.scaleTo(0.35, 0.3)), cc.callFunc(() => {
+        this.node.runAction(cc.sequence(cc.spawn(cc.moveTo(0.35, cc.v2(-190, 190)), cc.scaleTo(0.35, 0.3)), cc.callFunc(() => {
             // need change data
             this.node.removeFromParent();
             UpdateEnergy(this._energyData);

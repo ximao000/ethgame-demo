@@ -47,9 +47,15 @@ var RobotInforCtrl = /** @class */ (function (_super) {
         _this.lbEfficiency = null;
         _this.lbLuck = null;
         _this.lbLoss = null;
+        _this.lbInt = null;
         _this.lbSol = null;
         _this.iconSFs = [];
-        _this.ndState = [];
+        _this.ndHad = null;
+        _this.ndBuy = null;
+        _this.btnUse = null;
+        _this.btnUnUse = null;
+        _this.pgbs = [];
+        _this.ndInts = null;
         _this.robot = null;
         return _this;
         // update (dt) {}
@@ -78,29 +84,49 @@ var RobotInforCtrl = /** @class */ (function (_super) {
     };
     RobotInforCtrl.prototype.setDataToUI = function (data, state) {
         this.robot = data;
-        this.lbID.string = "#" + data.id;
+        this.lbID.string = "" + data.id;
         this.lbType.string = RobotProp_1.RobotTypeDesc[data.robotType];
-        this.lbMint.string = "Mint:" + data.mint;
-        this.lbLv.string = "Lv " + data.level;
+        this.lbMint.string = data.mint + "/7";
+        this.lbLv.string = "Lv." + data.level;
         this.lbEfficiency.string = "" + data.efficiency;
         this.lbLuck.string = "" + data.luck;
-        this.lbLoss.string = "" + data.loss;
-        this.lbSol.string = data.maticCost + " SOL";
+        this.lbLoss.string = "" + data.pow;
+        this.lbInt.string = data.intMin + "~" + data.intMax;
+        this.lbSol.string = data.maticCost + "";
         this.icon.spriteFrame = this.iconSFs[data.robotImgId];
-        for (var _i = 0, _a = this.ndState; _i < _a.length; _i++) {
-            var iterator = _a[_i];
-            iterator.active = false;
+        this.pgbs[0].progress = data.efficiency / 10;
+        this.pgbs[1].progress = data.luck / 10;
+        this.pgbs[2].progress = data.pow / 10;
+        for (var index = 0; index < 10; index++) {
+            this.ndInts.children[index].active = (index >= data.intMin - 1 && index < data.intMax);
         }
-        this.ndState[state].active = true;
+        switch (state) {
+            case INFOR_STATE.BUY:
+                this.ndHad.active = false;
+                this.ndBuy.active = true;
+                break;
+            case INFOR_STATE.HAED:
+                this.ndHad.active = true;
+                this.ndBuy.active = false;
+                this.btnUse.active = true;
+                this.btnUnUse.active = false;
+                break;
+            case INFOR_STATE.ISUSEING:
+                this.ndHad.active = true;
+                this.ndBuy.active = false;
+                this.btnUse.active = false;
+                this.btnUnUse.active = true;
+                break;
+        }
     };
     RobotInforCtrl.prototype.OnBtnClose = function () {
         this.node.active = false;
     };
     RobotInforCtrl.prototype.OnClickBuy = function () {
-        LocalDataAPI_1.BuyRobot(this.robot);
+        LocalDataAPI_1.API_BuyRobot(this.robot);
     };
     RobotInforCtrl.prototype.OnClickUse = function () {
-        LocalDataAPI_1.UseRobot(this.robot);
+        LocalDataAPI_1.API_UseRobot(this.robot);
     };
     __decorate([
         property(cc.Sprite)
@@ -128,13 +154,31 @@ var RobotInforCtrl = /** @class */ (function (_super) {
     ], RobotInforCtrl.prototype, "lbLoss", void 0);
     __decorate([
         property(cc.Label)
+    ], RobotInforCtrl.prototype, "lbInt", void 0);
+    __decorate([
+        property(cc.Label)
     ], RobotInforCtrl.prototype, "lbSol", void 0);
     __decorate([
         property([cc.SpriteFrame])
     ], RobotInforCtrl.prototype, "iconSFs", void 0);
     __decorate([
+        property(cc.Node)
+    ], RobotInforCtrl.prototype, "ndHad", void 0);
+    __decorate([
+        property(cc.Node)
+    ], RobotInforCtrl.prototype, "ndBuy", void 0);
+    __decorate([
+        property(cc.Node)
+    ], RobotInforCtrl.prototype, "btnUse", void 0);
+    __decorate([
+        property(cc.Node)
+    ], RobotInforCtrl.prototype, "btnUnUse", void 0);
+    __decorate([
+        property([cc.ProgressBar])
+    ], RobotInforCtrl.prototype, "pgbs", void 0);
+    __decorate([
         property([cc.Node])
-    ], RobotInforCtrl.prototype, "ndState", void 0);
+    ], RobotInforCtrl.prototype, "ndInts", void 0);
     RobotInforCtrl = __decorate([
         ccclass
     ], RobotInforCtrl);

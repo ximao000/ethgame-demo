@@ -9,7 +9,9 @@ export interface IRobot {
     // 属性
     efficiency: number,//效率
     luck: number,//幸运
-    loss: number,//损耗
+    pow: number,//损耗
+    intMin: number,//转化
+    intMax: number,//转化
 
 }
 
@@ -25,10 +27,10 @@ export enum RobotType {
 
 // 
 export const RobotTypeDesc = {
-    [RobotType.TYPE_1]: "初级机器人",
-    [RobotType.TYPE_2]: "中级机器人",
-    [RobotType.TYPE_3]: "高级机器人",
-    [RobotType.TYPE_4]: "史诗机器人",
+    [RobotType.TYPE_1]: "A-ROBOT",
+    [RobotType.TYPE_2]: "B-ROBOT",
+    [RobotType.TYPE_3]: "C-ROBOT",
+    [RobotType.TYPE_4]: "D-ROBOT",
 }
 
 
@@ -36,16 +38,19 @@ export function DefaultShopInfo(): IRobot[] {
     let data: IRobot[] = [];
 
     for (let index = 0; index < 20; index++) {
+        let robotType = index % RobotTypeCount;
         let robot: IRobot = {
             id: Math.ceil(Math.random() * 1000000) + 5000000,
             robotImgId: index % RobotTypeCount,
-            mint: index,
+            mint: Math.ceil(Math.random() * 7),
             maticCost: index,
             level: index,
-            robotType: index % RobotTypeCount,
-            efficiency: Math.ceil(Math.random() * 10) / 10,
-            luck: Math.ceil(Math.random() * 10) / 10,
-            loss: Math.ceil(Math.random() * 10) / 10
+            robotType: robotType,
+            efficiency: Math.ceil(Math.random() * 10),
+            luck: Math.ceil(Math.random() * 10),
+            pow: Math.ceil(Math.random() * 10),
+            intMin: [1, 3, 5, 7][robotType],
+            intMax: [3, 5, 7, 10][robotType],
         }
         data.push(robot);
 

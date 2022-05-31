@@ -39,14 +39,14 @@ export function DefaultEnergyInfo(): IEnergy[] {
     for (let index = 0; index < 3; index++) {
         let energy: IEnergy = {
             idx: index,
-            energyType: 0,
+            energyType: Math.floor(Math.random() * 4),
             energyTime: new Date().getTime() - index*1000*300,
-            energyCount: Math.ceil(Math.random() * 1000),
+            energyCount: Math.ceil(Math.random() * 100 + 10),
             isGrow: false,
             canSteal: true,
         };
         data.push(energy);
-
+        console.log("energyType: " + energy.energyType);
     }
     return data;
 }

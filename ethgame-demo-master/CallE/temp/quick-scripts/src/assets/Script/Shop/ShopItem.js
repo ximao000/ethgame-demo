@@ -101,10 +101,10 @@ var ShopItem = /** @class */ (function (_super) {
                 this._renderIdx = idx;
                 this._robotData = data;
                 this._shopId = data.id;
-                this.lbMint.string = "Mint:" + data.mint;
+                this.lbMint.string = data.mint + "/7";
                 this.lbID.string = "#" + data.id;
-                this.lbSol.string = data.maticCost + "SOL";
-                this.lbLv.string = "Lv " + data.level;
+                this.lbSol.string = data.maticCost + "";
+                this.lbLv.string = "Lv." + data.level;
                 this.lbType.string = RobotProp_1.RobotTypeDesc[data.robotType];
                 this.icon.spriteFrame = this.iconSFs[data.robotImgId];
                 return [2 /*return*/];
@@ -115,7 +115,7 @@ var ShopItem = /** @class */ (function (_super) {
         Global_1.default.Inst.Emit(MsgEvent_1.LocMsg.SHOW_ROBOT_INFOR, this._robotData, RobotInforCtrl_1.INFOR_STATE.BUY);
     };
     ShopItem.prototype.OnClickBuy = function () {
-        LocalDataAPI_1.BuyRobot(this._robotData);
+        LocalDataAPI_1.API_BuyRobot(this._robotData);
     };
     __decorate([
         property(cc.Sprite)
