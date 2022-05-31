@@ -2,7 +2,7 @@
 
 **Inspires more people to trade on green chain.**
 
-Demo Video:[https://www.youtube.com/watch?v=dkfTvbnmYRo&t=48s](https://www.youtube.com/watch?v=dkfTvbnmYRo&t=48s) 
+Demo Video:[https://www.youtube.com/watch?v=dkfTvbnmYRo](https://www.youtube.com/watch?v=dkfTvbnmYRo) 
 
 ChainIDE Video:[https://www.youtube.com/watch?v=otbpyQ7AtiQ](https://www.youtube.com/watch?v=otbpyQ7AtiQ)
 
