@@ -1,9 +1,9 @@
-Half Space  
+#Half Space  
 Inspires more people to trade on green chain.
 
 Demo Video:https://www.youtube.com/watch?v=dkfTvbnmYRo&t=48s
 ChainIDE Video:https://www.youtube.com/watch?v=otbpyQ7AtiQ
-Introduction of Team members
+#Introduction of Team members
 
 Product Manager: Nick Pang. Founder of CoolTown Game. PPTV, Giant Interactive.
 Front-end Engineer: Jingyan Liu, Experienced in casual game, social game. CoolTown game.
